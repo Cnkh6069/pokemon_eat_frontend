@@ -31,20 +31,8 @@ const Profile = () => {
 const handleUpdate = async() => {
     try {
         if (profile.userName && profile.email) {
-            // First check if user exists
-            const checkUser = await axios.get(`http://localhost:3000/users/auth/${user.sub}`);
-            
-            if (checkUser.data) {
-                // If user exists, update their profile
-                const updateResponse = await axios.put(`http://localhost:3000/users/${checkUser.data.id}`, {
-                    userName: profile.userName,
-                    firstName: profile.firstName || '',
-                    lastName: profile.lastName || '',
-                    email: profile.email
-                });
-                setProfile(updateResponse.data);
-            } else {
-                // If user doesn't exist, create new user
+            // First try to create new user
+            try {
                 const createResponse = await axios.post('http://localhost:3000/users', {
                     auth0Id: user.sub,
                     userName: profile.userName,
@@ -53,6 +41,29 @@ const handleUpdate = async() => {
                     email: profile.email
                 });
                 setProfile(createResponse.data);
+                
+                // Also send signup notification
+                await axios.post('http://localhost:3000/api/signup', {
+                    email: profile.email,
+                    name: profile.userName,
+                    auth0Id: user.sub
+                });
+            } catch (createError) {
+                if (createError.response?.status === 409) {
+                    // User exists, try to update instead
+                    const checkUser = await axios.get(`http://localhost:3000/users/auth/${user.sub}`);
+                    if (checkUser.data) {
+                        const updateResponse = await axios.put(`http://localhost:3000/users/${checkUser.data.id}`, {
+                            userName: profile.userName,
+                            firstName: profile.firstName || '',
+                            lastName: profile.lastName || '',
+                            email: profile.email
+                        });
+                        setProfile(updateResponse.data);
+                    }
+                } else {
+                    throw createError;
+                }
             }
             setIsEditing(false);
         } else {
