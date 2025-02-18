@@ -14,7 +14,7 @@ const Profile = () => {
   useEffect(() => {
     if (isAuthenticated && user) {
         //try to fetch existing profile
-        axios.get(`http://localhost:3000/users/${user.sub}`).then((response)=>{
+        axios.get(`http://localhost:3000/users/auth/${user.sub}`).then((response)=>{
             setProfile(response.data);
             setIsEditing(false);//Existing user,don't show edit form
         }).catch(() =>{
@@ -29,16 +29,38 @@ const Profile = () => {
     }
 },[isAuthenticated,user]);
 const handleUpdate = async() => {
-    try{
-        if (profile.userName && profile.email)
-        {const response = await axios.post ('http://localhost:3000/users',{auth0Id:user.sub,...profile});
-            setProfile(response.data);
-        setIsEditing(false);}
-        else{
+    try {
+        if (profile.userName && profile.email) {
+            // First check if user exists
+            const checkUser = await axios.get(`http://localhost:3000/users/auth/${user.sub}`);
+            
+            if (checkUser.data) {
+                // If user exists, update their profile
+                const updateResponse = await axios.put(`http://localhost:3000/users/${checkUser.data.id}`, {
+                    userName: profile.userName,
+                    firstName: profile.firstName || '',
+                    lastName: profile.lastName || '',
+                    email: profile.email
+                });
+                setProfile(updateResponse.data);
+            } else {
+                // If user doesn't exist, create new user
+                const createResponse = await axios.post('http://localhost:3000/users', {
+                    auth0Id: user.sub,
+                    userName: profile.userName,
+                    firstName: profile.firstName || '',
+                    lastName: profile.lastName || '',
+                    email: profile.email
+                });
+                setProfile(createResponse.data);
+            }
+            setIsEditing(false);
+        } else {
             alert('Username and Email are required!');
         }
-    }catch(error){
-        console.error('Error updating profile: ',error);
+    } catch(error) {
+        console.error('Error updating profile: ', error.response?.data || error);
+        alert(error.response?.data?.error || 'Failed to update profile. Please try again.');
     }
 };
 if (!isAuthenticated) return null;
