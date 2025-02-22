@@ -29,3 +29,17 @@ Currently, two official plugins are available:
     - npm install
     - npm install axios react-router-dom
     - npm install @auth0/auth0-react
+    - npm install react-bootstrap bootstrap axios react-router-dom
+
+
+    To do:
+    - fix filter##
+    route to individual restaurant page to do review
+    search bar for restaurants
+
+    Submit review, edit review, delete review
+    on review, generate pop up page for pokemon assigned
+
+    5 by 5 grid page to see collected pokemon
+
+    Back end Admin can add new restaurant for review

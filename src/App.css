@@ -4,9 +4,24 @@
   padding: 2rem;
   text-align: center;
 }
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.header h1 {
+  color: white;
+   margin: 0;
+  font-size: 3rem;
+}
 
 .logo {
-  height: 6em;
+  width: 150px;
+  height: 150px;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
