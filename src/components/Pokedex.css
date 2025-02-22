@@ -12,15 +12,15 @@
   }
   
   .pokemon-card {
-    background: white;
+    border: 1px solid #ddd;
     border-radius: 8px;
     padding: 15px;
+    background: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    text-align: center;
-    min-height: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    aspect-ratio: 1;
   }
   
   .pokemon-card.empty {
@@ -29,11 +29,12 @@
   }
   
   .pokemon-image {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     object-fit: contain;
-    margin-bottom: 10px;
   }
+  
+
   
   .pokemon-card h3 {
     margin: 5px 0;
@@ -70,4 +71,16 @@
   .pagination span {
     font-size: 1.1em;
     color: #666;
+  }
+  .pokemon-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .pokemon-info {
+    text-align: center;
+    margin-top: 10px;
   }

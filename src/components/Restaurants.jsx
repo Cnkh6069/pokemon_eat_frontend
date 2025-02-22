@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import FilterSection from './FilterSection';
+import RestaurantTable from './RestaurantTable';
+import Pagination from './Pagination';
 import axios from 'axios';
 import '../components/Restaurant.css';
 

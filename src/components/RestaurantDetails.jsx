@@ -36,21 +36,7 @@ const RestaurantDetails = () => {
 
   return (
     <div className="restaurant-details">
-      <div className="restaurant-info">
-        <h2>{restaurant.name}</h2>
-        <div className="info-grid">
-          <div>
-          <p><strong>Restaurant Name:</strong> {restaurant.name}</p>
-            <p><strong>Cuisine:</strong> {restaurant.cuisine}</p>
-            <p><strong>Location:</strong> {restaurant.location}</p>
-            <p><strong>Address:</strong> {restaurant.address}</p>
-          </div>
-          <div>
-            <p><strong>Average Rating:</strong> {restaurant.averageRating ? 
-              `${restaurant.averageRating.toFixed(1)} ⭐` : 'No ratings yet'}</p>
-          </div>
-        </div>
-      </div>
+     
 
       <div className="reviews-section">
         <h3>What Others Say?</h3>
